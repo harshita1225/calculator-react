@@ -21,21 +21,60 @@ const reducer = (state, action) => {
         return { ...state, num2: "" };
       }
 
+    // case "op1":
+    //   if (!state.value) {
+    //     return {
+    //       ...state,
+    //       operator: action.payload,
+    //       num1: state.num2,
+    //       num2: "",
+    //     };
+    //   } else {
+    //     return {
+    //       ...state,
+    //       operator: action.payload,
+    //       num2: "",
+    //     };
+    //   }
+
     case "op":
-      if (!state.value) {
+      if (action.payload === "+") {
+        console.log("addition");
         return {
           ...state,
-          operator: action.payload,
-          num1: state.num2,
+          value: +state.num1 + +state.num2,
+          num1: +state.num1 + +state.num2,
           num2: "",
+          operator: action.payload,
         };
-      } else {
+      } else if (action.payload === "-") {
+        console.log("subtraction");
         return {
           ...state,
-          operator: action.payload,
+          value: +state.num1 - +state.num2,
+          num1: +state.num1 - +state.num2,
           num2: "",
+          operator: action.payload,
         };
-      }
+      } else if (action.payload === "*") {
+        console.log("multiplication");
+        return {
+          ...state,
+          value: +state.num1 * +state.num2,
+          num1: +state.num1 * +state.num2,
+          num2: "",
+          operator: action.payload,
+        };
+      } else if (action.payload === "/") {
+        console.log("division");
+        return {
+          ...state,
+          value: +state.num1 / +state.num2,
+          num1: +state.num1 / +state.num2,
+          num2: "",
+          operator: action.payload,
+        };
+      } else return state;
 
     case "eq":
       if (state.operator === "+") {
@@ -105,7 +144,11 @@ export default function App() {
       <div className="calculator">
         <div className="container">
           <div className="display">
-            {!state.value ? state.num2 : state.value}
+            {!state.num2
+              ? state.operator
+                ? state.value
+                : state.value
+              : state.num2}
             <span className="cursor" />
           </div>
           <button className="btn" onClick={() => dispatch({ type: "AC" })}>
